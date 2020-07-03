@@ -7,6 +7,7 @@ from icalendar import Calendar, Event
 import os
 import pandas as pd
 import re
+import pprint
 
 
 year_now = datetime.now().strftime("%Y")
@@ -57,34 +58,43 @@ for i, row in enumerate(table.rows):
 
         # print(e_date)
 
-    # elif e_date == ''.join(pattern_3):
-    #     print(e_date)
+    elif e_date == ''.join(pattern_3):
+        e_date = e_date.split()
+        e_date_day = e_date[0]
+        mounth_dict = {'01': 'января', '02': 'февраля', '03': 'марта', '04': 'апреля', '05': 'мая', '06': 'июня', '07': 'июля',
+                       '08': 'августа', '09': 'сентября', '10': 'октября', '11': 'ноября', '12': 'декабря'}
+        for k,v in mounth_dict.items():
+            if v == e_date[1]:
+                e_date_mounth = k
+        # print(e_date_day, e_date_mounth)
+        # print(e_date)
+
+    e_from = row_data['From'].strip().replace('\\n', '........')
+    if (int(year_now) - int(e_date_year)) % 5 == 0:
+        e_from = f'ЮБИЛЕЙ {int(year_now) - int(e_date_year)} ЛЕТ! ({e_date_year} г.р.) {e_from}'
+    else:
+        e_from = f'({e_date_year} г.р.) {e_from}'
+    # print(e_from)
+    # print('______________________________________________________')
+
+
+    # e_name = row_data['Name'].strip().replace('  ', ' ')
+    # print(e_name)
+    # print('_________')
 
 
 
-    # print(datetime.now().strftime("%d-%m-%Y"))
+
 
 
     row_data[u'dtstart'] = datetime(int(year_now), int(e_date_mounth), int(e_date_day), 8, 0, 0)
     row_data[u'dtend'] = datetime(int(year_now), int(e_date_mounth), int(e_date_day), 20, 0, 0)
-#
+    data.append(row_data)
 
 
 
-#     if len(e_time) > 1:
-#
-#         row_data[u'dtstart'] = datetime(2017, int(e_date[1]), int(e_date[0]),
-#                                         int(e_time[0]), 0, 0)
-#         row_data[u'dtend'] = datetime(2017, int(e_date[1]), int(e_date[0]),
-#                                       int(e_time[1]), 0, 0)
-#
-#     else:
-#         row_data[u'dtstart'] = datetime(2017, int(e_date[1]), int(e_date[0]),
-#                                         17, 1, 0)
-#         row_data[u'dtend'] = datetime(2017, int(e_date[1]), int(e_date[0]),
-#                                       17, 0, 0)
-#
-#     data.append(row_data)
+
+pprint.pprint(data)
 #
 # print(data)
 
