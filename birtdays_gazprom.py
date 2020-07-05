@@ -66,51 +66,61 @@ for i, row in enumerate(table.rows):
         for k,v in mounth_dict.items():
             if v == e_date[1]:
                 e_date_mounth = k
+        e_date_year = year_now
         # print(e_date_day, e_date_mounth)
         # print(e_date)
 
-    e_from = row_data['From'].strip().replace('\\n', '........')
-    if (int(year_now) - int(e_date_year)) % 5 == 0:
+    e_from = row_data['From'].strip().replace('\\n', '')
+    if (int(year_now) - int(e_date_year)) % 5 == 0 and int(e_date_year) != int(year_now):
         e_from = f'ЮБИЛЕЙ {int(year_now) - int(e_date_year)} ЛЕТ! ({e_date_year} г.р.) {e_from}'
+    elif int(e_date_year) == int(year_now):
+        e_from = f'(Г.р. не известен) {e_from}'
     else:
         e_from = f'({e_date_year} г.р.) {e_from}'
+
+
+
     # print(e_from)
     # print('______________________________________________________')
 
 
-    # e_name = row_data['Name'].strip().replace('  ', ' ')
+    e_name = row_data['Name'].strip().replace('  ', ' ')
     # print(e_name)
     # print('_________')
 
 
 
 
-
-
+    row_data['summary'] = e_name
+    row_data['description'] = e_from
     row_data[u'dtstart'] = datetime(int(year_now), int(e_date_mounth), int(e_date_day), 8, 0, 0)
     row_data[u'dtend'] = datetime(int(year_now), int(e_date_mounth), int(e_date_day), 20, 0, 0)
+
+    del row_data['Name']
+    del row_data['Date']
+    del row_data['From']
+
     data.append(row_data)
 
 
 
 
 pprint.pprint(data)
-#
-# print(data)
 
-# cal = Calendar()
 
-# for row in data:
-#     event = Event()
-#
-#     event.add('summary', row['Activity'])
-#     event.add('dtstart', row['dtstart'])
-#     event.add('dtend', row['dtend'])
-#     event.add('description', row['Activity'])
-#     event.add('location', row['Room'])
-#     event.add('rrule', {'freq': 'yearly'})
-#     cal.add_component(event)
-#
-# f = open('course_schedule.ics', 'wb')
-# f.write(cal.to_ical())
-# f.close()
+cal = Calendar()
+
+for row in data:
+    event = Event()
+
+    event.add('summary', row['summary'])
+    event.add('dtstart', row['dtstart'])
+    event.add('dtend', row['dtend'])
+    event.add('description', row['description'])
+    # event.add('location', row['Room'])
+    event.add('rrule', {'freq': 'yearly'})
+    cal.add_component(event)
+
+f = open(f'{path}\\course_schedule.ics', 'ab')
+f.write(cal.to_ical())
+f.close()
