@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #pip install python-docx icalendar
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from docx import Document
 from icalendar import Calendar, Event
 import os
@@ -108,10 +108,16 @@ for i in range(len(docx_file)):
 
         pprint.pprint(e_name)
         row_data['summary'] = e_name
-
         row_data['description'] = e_from
-        row_data[u'dtstart'] = datetime(int(year_now), int(e_date_mounth), int(e_date_day), 8, 0, 0)
-        row_data[u'dtend'] = datetime(int(year_now), int(e_date_mounth), int(e_date_day), 20, 0, 0)
+
+        start = datetime(int(year_now), int(e_date_mounth), int(e_date_day))
+        end = datetime(int(year_now), int(e_date_mounth), int(e_date_day))
+        end = end + timedelta(days=1)
+        print(start)
+        print(end)
+
+        row_data[u'dtstart'] = start
+        row_data[u'dtend'] = end
 
         del row_data['Name']
         del row_data['Date']
