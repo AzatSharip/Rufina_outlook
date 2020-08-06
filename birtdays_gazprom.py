@@ -103,10 +103,12 @@ for i in range(len(docx_file)):
 
 
 
-        e_name = row_data['Name'].strip().replace('  ', ' ')
+        # e_name = row_data['Name'].strip().replace('  ', ' ')
+        e_name = row_data['Name'].strip()
 
-
+        pprint.pprint(e_name)
         row_data['summary'] = e_name
+
         row_data['description'] = e_from
         row_data[u'dtstart'] = datetime(int(year_now), int(e_date_mounth), int(e_date_day), 8, 0, 0)
         row_data[u'dtend'] = datetime(int(year_now), int(e_date_mounth), int(e_date_day), 20, 0, 0)
@@ -120,7 +122,7 @@ for i in range(len(docx_file)):
 
 
 
-    pprint.pprint(data)
+    # pprint.pprint(data)
 
 
     cal = Calendar()
