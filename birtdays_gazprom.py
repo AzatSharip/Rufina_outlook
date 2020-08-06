@@ -94,7 +94,7 @@ for i in range(len(docx_file)):
             # print(e_date)
 
         e_from = row_data['From'].strip().replace('\\n', '')
-        if (int(year_now) - int(e_date_year)) % 5 == 0 and int(e_date_year) != int(year_now):
+        if (int(year_now) - int(e_date_year)) % 5 == 0 and (int(year_now) - int(e_date_year)) >= 50 and int(e_date_year) != int(year_now):
             e_from = f'ЮБИЛЕЙ {int(year_now) - int(e_date_year)} ЛЕТ! ({e_date_year} г.р.) {e_from}'
         elif int(e_date_year) == int(year_now):
             e_from = f'(Г.р. не известен) {e_from}'
@@ -107,8 +107,8 @@ for i in range(len(docx_file)):
         e_name = row_data['Name'].strip()
 
         pprint.pprint(e_name)
-        row_data['summary'] = e_name
-        row_data['description'] = e_from
+        row_data['summary'] = f'ДР {e_name}. {e_from}'
+        row_data['description'] = ''
 
         start = datetime(int(year_now), int(e_date_mounth), int(e_date_day))
         end = datetime(int(year_now), int(e_date_mounth), int(e_date_day))
