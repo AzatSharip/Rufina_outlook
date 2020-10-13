@@ -17,16 +17,16 @@ mounth_now = datetime.now().strftime("%m")
 
 path = os.getcwd()
 try:
-    os.makedirs(f'{path}\\готовые календари\\', exist_ok=True)
+    os.makedirs(f'{path}\\render\\', exist_ok=True)
 except:
     pass
 
 
 try:
-    os.makedirs(f'{path}\\сюда класть ворды\\', exist_ok=True)
+    os.makedirs(f'{path}\\put docs here\\', exist_ok=True)
 except:
     pass
-render = '\\сюда класть ворды\\'
+render = '\\put docs here\\'
 
 
 dir_list = [os.path.join(path + render, x) for x in os.listdir(path + render)]
@@ -102,7 +102,6 @@ for i in range(len(docx_file)):
             e_from = f'({e_date_year} г.р.) {e_from}'
 
 
-
         # e_name = row_data['Name'].strip().replace('  ', ' ')
         e_name = row_data['Name'].strip()
 
@@ -124,11 +123,7 @@ for i in range(len(docx_file)):
         del row_data['From']
 
         data.append(row_data)
-
-
-
-
-    # pprint.pprint(data)
+   # pprint.pprint(data)
 
 
     cal = Calendar()
@@ -148,6 +143,6 @@ for i in range(len(docx_file)):
 
 
     ical_name = docx_name.split('.')[0]
-    f = open(f'{path}\\готовые календари\\{ical_name}.ics', 'wb')
+    f = open(f'{path}\\render\\{ical_name}.ics', 'wb')
     f.write(cal.to_ical())
     f.close()

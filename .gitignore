@@ -1,0 +1,12 @@
+*.ics
+*.docx
+render/
+put docs here/
+__pycache__/
+
+
+
+
+
+
+
